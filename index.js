@@ -52,14 +52,16 @@ function checkGuess() {
     numberOfGuessesMessage.innerHTML = `You guessed ${guess}. <br> ${remainingAttempts} guesses remaining`;
   }
 
-  if (attempts === maxNumberOfAttempts) { // Fixed incorrect comparison operator
+  if (attempts === 0) { // Fixed incorrect comparison operator
+    numberOfGuessesMessage.innerHTML = `you guessed <strong>${guess}</strong>. <br> 0 guesses remaining.`;
+    maxGuessesMessage.style.display = '';
     submitButton.disabled = true;
     guessInput.disabled = true;
   }
 
   guessInput.value = '';
 
-  resetButton.style.display = '';
+  resetButton.style.display = ''; // show reset button
 }
 
 function hideAllMessages() {
@@ -81,8 +83,8 @@ function setup() {
   guessInput.disabled = false;
   guessInput.value = ''; // Clear input on reset
 
-  hideAllMessages();
-  resetButton.style.display = 'none';
+  hideAllMessages();// hide all messages at the start
+  resetButton.style.display = 'none'; //Hide reset button intitially
 }
 
 submitButton.addEventListener('click', checkGuess);
