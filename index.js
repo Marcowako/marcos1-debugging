@@ -13,11 +13,6 @@ let attempts = 0;
 const maxNumberOfAttempts = 5;
 
 // Returns a random number from min (inclusive) to max (exclusive)
-// Usage:
-// > getRandomNumber(1, 50)
-// <- 32
-// > getRandomNumber(1, 50)
-// <- 11
 function getRandomNumber(min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
 }
@@ -29,16 +24,16 @@ function checkGuess() {
 
   hideAllMessages();
 
-  if (guess === targetNumber) {
+  if (isNaN(guess)) {
     numberOfGuessesMessage.style.display = '';
-    numberOfGuessesMessage.innerHTML = `You made ${attempts} guesses`;
+    numberOfGuessesMessage.innerHTML = "please enter a valid number.";
+    return;
 
-    correctMessage.style.display = '';
+   // correctMessage.style.display = '';
 
-    submitButton.disabled = true;
-    guessInput.disabled = true;
+    //submitButton.disabled = true;
+    //guessInput.disabled = true;
   }
-
   if (guess !== targetNumber) {
     if (guess < targetNumber) {
       tooLowMessage.style.display = '';
@@ -60,7 +55,6 @@ function checkGuess() {
   }
 
   guessInput.value = '';
-
   resetButton.style.display = ''; // show reset button
 }
 
