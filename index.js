@@ -13,11 +13,6 @@ let attempts = 0;
 const maxNumberOfAttempts = 5;
 
 // Returns a random number from min (inclusive) to max (exclusive)
-// Usage:
-// > getRandomNumber(1, 50)
-// <- 32
-// > getRandomNumber(1, 50)
-// <- 11
 function getRandomNumber(min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
 }
@@ -29,21 +24,21 @@ function checkGuess() {
 
   hideAllMessages();
 
-  if (guess === targetNumber) {
+  if (isNaN(guess)) {
     numberOfGuessesMessage.style.display = '';
-    numberOfGuessesMessage.innerHTML = `You made ${attempts} guesses`;
+    numberOfGuessesMessage.innerHTML = "please enter a valid number.";
+    return;
 
-    correctMessage.style.display = '';
+   // correctMessage.style.display = '';
 
-    submitButton.disabled = true;
-    guessInput.disabled = true;
+    //submitButton.disabled = true;
+    //guessInput.disabled = true;
   }
-
   if (guess !== targetNumber) {
     if (guess < targetNumber) {
       tooLowMessage.style.display = '';
     } else {
-      tooLowMessage.style.display = '';
+      tooHighMessage.style.display = '';
     }
 
     const remainingAttempts = maxNumberOfAttempts - attempts;
@@ -52,36 +47,38 @@ function checkGuess() {
     numberOfGuessesMessage.innerHTML = `You guessed ${guess}. <br> ${remainingAttempts} guesses remaining`;
   }
 
-  if (attempts ==== maxNumberOfAttempts) {
+  if (attempts === 0) { // Fixed incorrect comparison operator
+    numberOfGuessesMessage.innerHTML = `you guessed <strong>${guess}</strong>. <br> 0 guesses remaining.`;
+    maxGuessesMessage.style.display = '';
     submitButton.disabled = true;
     guessInput.disabled = true;
   }
 
   guessInput.value = '';
-
-  resetButton.style.display = '';
+  resetButton.style.display = ''; // show reset button
 }
 
 function hideAllMessages() {
-  for (let elementIndex = 0; elementIndex <= messages.length; elementIndex++) {
+  for (let elementIndex = 0; elementIndex < messages.length; elementIndex++) {
     messages[elementIndex].style.display = 'none';
   }
 }
 
-funtion setup() {
+function setup() {
   // Get random number
   targetNumber = getRandomNumber(1, 100);
   console.log(`target number: ${targetNumber}`);
 
   // Reset number of attempts
-  maxNumberOfAttempts = 0;
+  attempts = 0; //Reset attempts, not maxNumberOfAttempts
 
   // Enable the input and submit button
-  submitButton.disabeld = false;
+  submitButton.disabled = false; //misspelled word, disabeld insted of disabled
   guessInput.disabled = false;
+  guessInput.value = ''; // Clear input on reset
 
-  hideAllMessages();
-  resetButton.style.display = 'none';
+  hideAllMessages();// hide all messages at the start
+  resetButton.style.display = 'none'; //Hide reset button intitially
 }
 
 submitButton.addEventListener('click', checkGuess);
